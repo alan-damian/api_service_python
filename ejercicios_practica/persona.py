@@ -53,6 +53,11 @@ def report(limit=0, offset=0):
 
     return json_result_list
 
+def dashboard():
+    personas = Persona.query.all()
+    x = [persona.id for persona in personas]
+    y = [persona.edad for persona in personas]
+    return x, y
 
 if __name__ == "__main__":
     print("Test del modulo heart.py")

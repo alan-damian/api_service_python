@@ -57,11 +57,21 @@ def personas():
         # limit = ...
         # offset = ....
 
+        limit = str(request.args.get('limit'))
+
+        offset= str(request.args.get('offset'))
+
         # Debe verificar si el limit y offset son válidos cuando
         # no son especificados en la URL
 
         limit = 0
         offset = 0
+
+        if(limit is not None) and (limit.isdigit()):
+            limit = int(limit)
+
+        if(offset is not None) and (offset.isdigit()):
+            offset = int(offset)
 
         result = persona.report(limit=limit, offset=offset)
         return jsonify(result)
@@ -81,9 +91,13 @@ def registro():
             # name = ...
             # age = ...
 
+            name = str(request.form.get('name'))
+
+            age = request.form.get('age')
+
             # Alumno: descomentar la linea persona.insert una vez implementado
             # lo anterior:
-            # persona.insert(name, int(age))
+            persona.insert(name, int(age))
             return Response(status=200)
         except:
             return jsonify({'trace': traceback.format_exc()})
@@ -106,9 +120,9 @@ def comparativa():
 
         # Descomentar luego de haber implementado su función en persona.py:
 
-        # x, y = persona.dashboard()
-        # image_html = utils.graficar(x, y)
-        # return Response(image_html.getvalue(), mimetype='image/png')
+        x, y = persona.dashboard()
+        image_html = utils.graficar(x, y)
+        return Response(image_html.getvalue(), mimetype='image/png')
 
         return "Alumno --> Realice la implementacion"
     except:
